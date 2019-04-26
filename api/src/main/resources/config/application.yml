@@ -1,0 +1,31 @@
+server:
+  port: 8023
+
+spring:
+  application:
+    name: Sword-Api
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    username: root
+    password: root1234
+    jdbc-url: jdbc:mysql://10.0.0.214:3306/feng?useUnicode=true&useSSL=false&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+    url: jdbc:mysql://10.0.0.214:3306/local?useUnicode=true&useSSL=false&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+  slave-datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    username: root
+    password: root1234
+    jdbc-url: jdbc:mysql://10.0.0.214:3306/feng?useUnicode=true&useSSL=false&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+
+eureka:
+  client:
+    serviceUrl:
+      #网关注册到eureka
+      defaultZone: http://localhost:8761/eureka/
+
+logging:
+  #config: classpath:config/logback.xml
+  level:
+    root: info
+

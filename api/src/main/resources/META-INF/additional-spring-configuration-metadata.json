@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "datasource.data-config.write-url",
+      "type": "java.lang.String",
+      "description": "Description for datasource.data-config.write-url."
+  }
+] }
