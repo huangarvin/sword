@@ -29,3 +29,7 @@ logging:
   level:
     root: info
 
+security:
+  oauth2:
+    client:
+      access-token-uri:
