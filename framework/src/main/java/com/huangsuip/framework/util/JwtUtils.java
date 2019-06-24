@@ -18,7 +18,7 @@ import org.apache.commons.codec.binary.Base64;
  * @author HuangSuip
  */
 public class JwtUtils {
-    private static String key = "asdfghjkl";
+    private static String key = "huangsuip";
 
     public static String createJwtToken(User user, long ttlMillis) {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
@@ -32,7 +32,7 @@ public class JwtUtils {
                 .claim(Constants.USER_NAME, user.getName())
                 .signWith(signatureAlgorithm, getKey());
         long expMillis = nowMillis + ttlMillis;
-        builder.setExpiration(new Date(expMillis));
+        //builder.setExpiration(new Date(expMillis));
         return builder.compact();
     }
 
@@ -50,7 +50,7 @@ public class JwtUtils {
     }
 
     public static User parserJwtToken(String token) {
-        Claims body = null;
+        Claims body;
         try {
          body = Jwts.parser().setSigningKey(getKey()).parseClaimsJws(token).getBody();
         }catch (Exception e){

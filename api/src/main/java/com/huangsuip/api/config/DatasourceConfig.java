@@ -4,8 +4,8 @@ import javax.sql.DataSource;
 
 import com.huangsuip.framework.datasource.DynamicDataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -17,19 +17,30 @@ import org.springframework.context.annotation.Primary;
 public class DatasourceConfig {
 
 
+    @Bean("masterProperties")
+    @Primary
+    @ConfigurationProperties(prefix = "spring.datasource.master")
+    public DataSourceProperties dataSourceProperties() {
+        return new DataSourceProperties();
+    }
+
     @Bean("writeDatasource")
     @Primary
-    @ConfigurationProperties(prefix = "spring.datasource")
-    public DataSource getDataSourceWrite() {
-        DataSource build = DataSourceBuilder.create().build();
+    public DataSource getDataSourceWrite(@Qualifier("masterProperties") DataSourceProperties properties) {
+        DataSource build = properties.initializeDataSourceBuilder().build();
         return build;
     }
 
+    @Bean("slaveProperties")
+    @ConfigurationProperties(prefix = "spring.datasource.slave")
+    public DataSourceProperties dataSourceProperties2() {
+        return new DataSourceProperties();
+    }
 
     @Bean("readDatasource")
-    @ConfigurationProperties(prefix = "spring.slave-datasource")
-    public DataSource getDataSourceRead() {
-        DataSource build = DataSourceBuilder.create().build();
+    @ConfigurationProperties(prefix = "spring.datasource.slave")
+    public DataSource getDataSourceRead(@Qualifier("slaveProperties") DataSourceProperties properties) {
+        DataSource build = properties.initializeDataSourceBuilder().build();
         return build;
     }
 

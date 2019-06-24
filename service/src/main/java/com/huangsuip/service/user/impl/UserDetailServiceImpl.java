@@ -2,9 +2,11 @@ package com.huangsuip.service.user.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import com.huangsuip.common.po.User;
 import com.huangsuip.common.po.UserLogin;
 import com.huangsuip.framework.util.JSONUtils;
+import com.huangsuip.framework.util.LogUtils;
 import com.huangsuip.service.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,7 +23,8 @@ public class UserDetailServiceImpl implements UserDetailsService {
     private UserMapper userMapper;
 
     @Override
-    public UserLogin loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserLogin loadUserByUsername(String username) {
+        LogUtils.info("loadUserByUsername: " + username);
         List<String> roles = new ArrayList<>();
 
         UserLogin userLogin = new UserLogin();

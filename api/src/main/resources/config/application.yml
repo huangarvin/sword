@@ -5,18 +5,18 @@ spring:
   application:
     name: Sword-Api
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    type: com.zaxxer.hikari.HikariDataSource
-    username: root
-    password: root1234
-    jdbc-url: jdbc:mysql://10.0.0.214:3306/feng?useUnicode=true&useSSL=false&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
-    url: jdbc:mysql://10.0.0.214:3306/local?useUnicode=true&useSSL=false&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
-  slave-datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    type: com.zaxxer.hikari.HikariDataSource
-    username: root
-    password: root1234
-    jdbc-url: jdbc:mysql://10.0.0.214:3306/feng?useUnicode=true&useSSL=false&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+    master:
+      driver-class-name: com.mysql.jdbc.Driver
+      type: com.alibaba.druid.pool.DruidDataSource
+      username: root
+      password: root1234
+      url: jdbc:mysql://10.0.2.93/feng?useUnicode=true&useSSL=false&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+    slave:
+      driver-class-name: com.mysql.jdbc.Driver
+      type: com.alibaba.druid.pool.DruidDataSource
+      username: root
+      password: root1234
+      url: jdbc:mysql://10.0.2.93:3306/feng?useUnicode=true&useSSL=false&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
 
 eureka:
   client:

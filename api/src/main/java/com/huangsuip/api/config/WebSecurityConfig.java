@@ -1,6 +1,7 @@
 package com.huangsuip.api.config;
 
 import com.huangsuip.api.security.CustomAuthenticationProvider;
+import com.huangsuip.api.security.ExceptionFilter;
 import com.huangsuip.api.security.JWTTokenSecurityFilter;
 import com.huangsuip.service.user.impl.UserDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter;
@@ -19,7 +21,7 @@ import org.springframework.security.web.context.request.async.WebAsyncManagerInt
  * @author HuangSuip
  */
 @Configuration
-//@EnableWebSecurity
+@EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     //GlobalAuthenticationConfigurerAdapter
@@ -108,6 +110,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         //http.addFilterAfter(jwtTokenSecurityFilter, JWTTokenSecurityFilter.class);
 
+        http.addFilterAfter(new ExceptionFilter(), WebAsyncManagerIntegrationFilter.class);
         http.addFilterAfter(jwtTokenSecurityFilter(), WebAsyncManagerIntegrationFilter.class);
         //http.addFilterBefore(new AnonymousAuthenticationFilter("anonymousUser"), JWTTokenSecurityFilter.class);
 /*            .and()
