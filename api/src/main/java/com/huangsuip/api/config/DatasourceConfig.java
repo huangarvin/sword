@@ -38,7 +38,6 @@ public class DatasourceConfig {
     }
 
     @Bean("readDatasource")
-    @ConfigurationProperties(prefix = "spring.datasource.slave")
     public DataSource getDataSourceRead(@Qualifier("slaveProperties") DataSourceProperties properties) {
         DataSource build = properties.initializeDataSourceBuilder().build();
         return build;

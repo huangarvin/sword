@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+option java_package = "com.huangsuip.netty.protobuf";
+option java_outer_classname ="PhoneTypeProto";
+
+enum PhoneType {
+    MOBILE = 0;
+    HOME = 1;
+    WORK = 2;
+}

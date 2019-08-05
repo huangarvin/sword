@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+option java_package = "com.huangsuip.netty.protobuf";
+option java_outer_classname ="MessageTypeProto";
+
+enum MessageType {
+    SERVICE_REQ = 0;
+    SERVICE_RESP = 1;
+    ONE_WAY = 2;
+    LOGIN_REQ = 3;
+    LOGIN_RESP = 4;
+    HEARTBEAT_REQ = 5;
+    HEARTBEAT_RESP = 6;
+    TEST_CMD = 7;
+}

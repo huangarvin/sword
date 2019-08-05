@@ -38,7 +38,7 @@ public class MybatisConfig {
         bean.setDataSource(readAndWrite);
         bean.setMapperLocations(new PathMatchingResourcePatternResolver()
             .getResources("classpath*:/com/huangsuip/mapper/*.xml"));
-        bean.setTypeAliasesPackage("com.huangsuip.service.mapper");
+        //bean.setTypeAliasesPackage("com.huangsuip.service");
 
         PaginationInterceptor pageInterceptor = new PaginationInterceptor();
         DynamicPlugin dynamicPlugin = new DynamicPlugin();
@@ -66,8 +66,8 @@ public class MybatisConfig {
         LogUtils.info("Mapper scanner configurer init start");
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
         mapperScannerConfigurer.setBasePackage("com.huangsuip.service.mapper");
-        //mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
-        mapperScannerConfigurer.setSqlSessionTemplateBeanName("sqlSessionTemplate");
+        mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
+        //mapperScannerConfigurer.setSqlSessionTemplateBeanName("sqlSessionTemplate");
         return mapperScannerConfigurer;
     }
 }

@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.huangsuip.common.po.User;
 import com.huangsuip.common.response.ResponseMessage;
 import com.huangsuip.framework.util.JwtUtils;
 import com.huangsuip.framework.util.LogUtils;
+import com.huangsuip.service.mapper.UserMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping
 public class TestController {
+
+    private final UserMapper userMapper;
+
+    public TestController(final UserMapper userMapper) {this.userMapper = userMapper;}
+
 
     @GetMapping("test/get/user")
     private Object hello(HttpServletRequest request) {
@@ -67,5 +74,11 @@ public class TestController {
         response.setStatus(200);
         LogUtils.info("TestController error");
         return ResponseMessage.ok("恭喜你 error 了");
+    }
+
+    @GetMapping("user-test")
+    private Object userTest() {
+        userMapper.selectById(1L);
+        return ResponseMessage.ok();
     }
 }
