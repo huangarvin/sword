@@ -49,7 +49,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <protocExecutable>C:\Program Files\protoc-3.9.0-win64\bin/protoc.exe</protocExecutable>
+                    <protocExecutable>C:\Program Files\protoc-3.9.0-win64\bin\protoc.exe</protocExecutable>
                     <outputDirectory>${basedir}/src/main/java</outputDirectory>
                     <clearOutputDirectory>false</clearOutputDirectory>
                 </configuration>

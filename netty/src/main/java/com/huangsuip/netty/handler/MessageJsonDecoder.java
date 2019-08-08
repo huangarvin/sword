@@ -4,7 +4,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import com.alibaba.fastjson.JSON;
-import com.huangsuip.netty.message.NettyMessage;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;
@@ -40,8 +39,8 @@ public class MessageJsonDecoder extends MessageToMessageDecoder<ByteBuf> {
         logger.debug("ByteBuf: " + JSON.toJSONString(msg));
         String json = msg.toString(StandardCharsets.UTF_8);
         logger.debug("JSON String: " + json);
-        NettyMessage nettyMessage = JSON.parseObject(json, NettyMessage.class);
-        logger.debug("NettyMessage: " + JSON.toJSONString(nettyMessage));
-        out.add(nettyMessage);
+       // NettyMessage nettyMessage = JSON.parseObject(json, NettyMessage.class);
+        //logger.debug("NettyMessage: " + JSON.toJSONString(nettyMessage));
+        //out.add(nettyMessage);
     }
 }

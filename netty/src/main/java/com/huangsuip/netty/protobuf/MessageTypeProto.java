@@ -15,6 +15,10 @@ public final class MessageTypeProto {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   /**
+   * <pre>
+   *各种命令管理,
+   * </pre>
+   *
    * Protobuf enum {@code MessageType}
    */
   public enum MessageType
@@ -28,29 +32,53 @@ public final class MessageTypeProto {
      */
     SERVICE_RESP(1),
     /**
+     * <pre>
+     *单次无需返回
+     * </pre>
+     *
      * <code>ONE_WAY = 2;</code>
      */
     ONE_WAY(2),
     /**
+     * <pre>
+     *登录请求
+     * </pre>
+     *
      * <code>LOGIN_REQ = 3;</code>
      */
     LOGIN_REQ(3),
     /**
+     * <pre>
+     *退出
+     * </pre>
+     *
      * <code>LOGIN_RESP = 4;</code>
      */
     LOGIN_RESP(4),
     /**
+     * <pre>
+     *心跳请求
+     * </pre>
+     *
      * <code>HEARTBEAT_REQ = 5;</code>
      */
     HEARTBEAT_REQ(5),
     /**
+     * <pre>
+     *心跳返回
+     * </pre>
+     *
      * <code>HEARTBEAT_RESP = 6;</code>
      */
     HEARTBEAT_RESP(6),
     /**
-     * <code>TEST_CMD = 7;</code>
+     * <pre>
+     *测试命令
+     * </pre>
+     *
+     * <code>TEST_CMD = 10;</code>
      */
-    TEST_CMD(7),
+    TEST_CMD(10),
     UNRECOGNIZED(-1),
     ;
 
@@ -63,29 +91,53 @@ public final class MessageTypeProto {
      */
     public static final int SERVICE_RESP_VALUE = 1;
     /**
+     * <pre>
+     *单次无需返回
+     * </pre>
+     *
      * <code>ONE_WAY = 2;</code>
      */
     public static final int ONE_WAY_VALUE = 2;
     /**
+     * <pre>
+     *登录请求
+     * </pre>
+     *
      * <code>LOGIN_REQ = 3;</code>
      */
     public static final int LOGIN_REQ_VALUE = 3;
     /**
+     * <pre>
+     *退出
+     * </pre>
+     *
      * <code>LOGIN_RESP = 4;</code>
      */
     public static final int LOGIN_RESP_VALUE = 4;
     /**
+     * <pre>
+     *心跳请求
+     * </pre>
+     *
      * <code>HEARTBEAT_REQ = 5;</code>
      */
     public static final int HEARTBEAT_REQ_VALUE = 5;
     /**
+     * <pre>
+     *心跳返回
+     * </pre>
+     *
      * <code>HEARTBEAT_RESP = 6;</code>
      */
     public static final int HEARTBEAT_RESP_VALUE = 6;
     /**
-     * <code>TEST_CMD = 7;</code>
+     * <pre>
+     *测试命令
+     * </pre>
+     *
+     * <code>TEST_CMD = 10;</code>
      */
-    public static final int TEST_CMD_VALUE = 7;
+    public static final int TEST_CMD_VALUE = 10;
 
 
     public final int getNumber() {
@@ -113,7 +165,7 @@ public final class MessageTypeProto {
         case 4: return LOGIN_RESP;
         case 5: return HEARTBEAT_REQ;
         case 6: return HEARTBEAT_RESP;
-        case 7: return TEST_CMD;
+        case 10: return TEST_CMD;
         default: return null;
       }
     }
@@ -179,7 +231,7 @@ public final class MessageTypeProto {
       "SERVICE_REQ\020\000\022\020\n\014SERVICE_RESP\020\001\022\013\n\007ONE_W" +
       "AY\020\002\022\r\n\tLOGIN_REQ\020\003\022\016\n\nLOGIN_RESP\020\004\022\021\n\rH" +
       "EARTBEAT_REQ\020\005\022\022\n\016HEARTBEAT_RESP\020\006\022\014\n\010TE" +
-      "ST_CMD\020\007B0\n\034com.huangsuip.netty.protobuf" +
+      "ST_CMD\020\nB0\n\034com.huangsuip.netty.protobuf" +
       "B\020MessageTypeProtob\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor

@@ -1,6 +1,9 @@
 package com.huangsuip.netty.handler;
 
 import com.alibaba.fastjson.JSON;
+import com.huangsuip.netty.protobuf.HeaderProto;
+import com.huangsuip.netty.protobuf.MessagePackageProto;
+import com.huangsuip.netty.protobuf.MessageTypeProto;
 import com.huangsuip.netty.utils.ChannelUtils;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -17,7 +20,11 @@ public class ServiceChannelHandlerAdapter extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(final ChannelHandlerContext ctx, final Object msg) {
         logger.debug(JSON.toJSONString(msg));
-
+        if (msg instanceof MessagePackageProto.MessagePackage){
+            MessagePackageProto.MessagePackage message = (MessagePackageProto.MessagePackage) msg;
+            HeaderProto.Header header = message.getHeader();
+            MessageTypeProto.MessageType type = header.getType();
+        }
     }
 
     @Override

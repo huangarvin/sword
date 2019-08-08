@@ -7,11 +7,6 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
 
-import com.alibaba.fastjson.JSON;
-import com.huangsuip.netty.message.Header;
-import com.huangsuip.netty.message.MessageType;
-import com.huangsuip.netty.message.NettyConstant;
-import com.huangsuip.netty.message.NettyMessage;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -20,7 +15,6 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
-import io.netty.handler.codec.string.StringDecoder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.slf4j.Logger;
@@ -40,7 +34,7 @@ public class NettyClientConfig {
 
     @PostConstruct
     public void startClient() throws Exception {
-        connect(port, NettyConstant.REMOTEIP);
+        connect(port, "localhost");
     }
 
 
@@ -54,7 +48,6 @@ public class NettyClientConfig {
 
                     @Override
                     protected void initChannel(final SocketChannel ch) {
-                        ch.pipeline().addLast(new StringDecoder());
                         ch.pipeline().addLast(new ProtobufEncoder());
                         ch.pipeline().addLast(new HeartBeatReqHandler());
                     }
@@ -80,7 +73,7 @@ public class NettyClientConfig {
             if (firstMessage != null)
                 firstMessage = null;
 
-            String message = buildMessage();
+            String message = null; //buildMessage();
             firstMessage = Unpooled.buffer(message.length());
             for (int i = 0; i < firstMessage.capacity(); i++) {
                 firstMessage.writeByte(message.charAt(i));
@@ -88,18 +81,18 @@ public class NettyClientConfig {
             return firstMessage;
         }
 
-        String buildMessage() {
+/*        String buildMessage() {
             NettyMessage message = new NettyMessage();
             Header header = new Header();
             header.setType(MessageType.HEARTBEAT_REQ.value());
             message.setHeader(header);
             message.setBody("This is json body");
             return JSON.toJSONString(message);
-        }
+        }*/
 
         @Override
         public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-            LOG.info("Client receive server heart beat message : ---> ");
+/*            LOG.info("Client receive server heart beat message : ---> ");
             NettyMessage message = (NettyMessage) msg;
             // 握手成功，主动发送心跳消息
             if (message.getHeader() != null
@@ -110,7 +103,7 @@ public class NettyClientConfig {
                 LOG.info("Client receive server heart beat message : ---> " + message);
             } else {
                 ctx.fireChannelRead(msg);
-            }
+            }*/
         }
 
         @Override
@@ -139,7 +132,7 @@ public class NettyClientConfig {
             public void run() {
                 ByteBuf message = createMessage();
                 LOG.info("Client send heart beat messsage to server : ---> " + message.toString() );
-                ctx.writeAndFlush(buildMessage());
+                //ctx.writeAndFlush(buildMessage());
             }
         }
 

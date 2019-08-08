@@ -28,7 +28,7 @@ public class ChildChannelHandler extends ChannelInitializer<SocketChannel> {
         pipeline.addLast(new ProtobufVarint32LengthFieldPrepender());
         pipeline.addLast(new ProtobufEncoder());
 
-        pipeline.addLast("readTimeoutHandler", new ReadTimeoutHandler(50));
+        pipeline.addLast("readTimeoutHandler", new ReadTimeoutHandler(60));
         pipeline.addLast(new ServiceChannelHandlerAdapter());
     }
 }
