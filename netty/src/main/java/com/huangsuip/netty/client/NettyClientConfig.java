@@ -7,14 +7,18 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
 
+import com.huangsuip.netty.protobuf.HeaderProto;
+import com.huangsuip.netty.protobuf.MessagePackageProto;
+import com.huangsuip.netty.protobuf.MessageTypeProto;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
+import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
+import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.slf4j.Logger;
@@ -48,8 +52,12 @@ public class NettyClientConfig {
 
                     @Override
                     protected void initChannel(final SocketChannel ch) {
-                        ch.pipeline().addLast(new ProtobufEncoder());
-                        ch.pipeline().addLast(new HeartBeatReqHandler());
+                        ChannelPipeline pipeline = ch.pipeline();
+                        pipeline.addLast(new ProtobufVarint32FrameDecoder());
+                        pipeline.addLast(new ProtobufDecoder(MessagePackageProto.MessagePackage.getDefaultInstance()));
+                        pipeline.addLast(new ProtobufVarint32LengthFieldPrepender());
+                        pipeline.addLast(new ProtobufEncoder());
+                        pipeline.addLast(new HeartBeatReqHandler());
                     }
                 });
 
@@ -59,6 +67,7 @@ public class NettyClientConfig {
         // 当对应的channel关闭的时候，就会返回对应的channel。
         // Returns the ChannelFuture which will be notified when this channel is closed. This method always returns the same future instance.
         //future.channel().closeFuture().sync();
+        logger.info("Netty connect end");
     }
 
     class HeartBeatReqHandler extends ChannelInboundHandlerAdapter {
@@ -67,31 +76,18 @@ public class NettyClientConfig {
 
         private volatile ScheduledFuture<?> heartBeat;
 
-        private ByteBuf firstMessage;
 
-        ByteBuf createMessage() {
-            if (firstMessage != null)
-                firstMessage = null;
-
-            String message = null; //buildMessage();
-            firstMessage = Unpooled.buffer(message.length());
-            for (int i = 0; i < firstMessage.capacity(); i++) {
-                firstMessage.writeByte(message.charAt(i));
-            }
-            return firstMessage;
+        MessagePackageProto.MessagePackage buildMessage() {
+            HeaderProto.Header header = HeaderProto.Header.newBuilder()
+                    .setType(MessageTypeProto.MessageType.HEARTBEAT_REQ)
+                    .build();
+            return MessagePackageProto.MessagePackage.newBuilder()
+                    .setHeader(header).build();
         }
-
-/*        String buildMessage() {
-            NettyMessage message = new NettyMessage();
-            Header header = new Header();
-            header.setType(MessageType.HEARTBEAT_REQ.value());
-            message.setHeader(header);
-            message.setBody("This is json body");
-            return JSON.toJSONString(message);
-        }*/
 
         @Override
         public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+
 /*            LOG.info("Client receive server heart beat message : ---> ");
             NettyMessage message = (NettyMessage) msg;
             // 握手成功，主动发送心跳消息
@@ -104,13 +100,14 @@ public class NettyClientConfig {
             } else {
                 ctx.fireChannelRead(msg);
             }*/
+            //heartBeat = ctx.executor().scheduleAtFixedRate(new HeartBeatReqHandler.HeartBeatTask(ctx), 0, 5000, TimeUnit.MILLISECONDS);
         }
 
         @Override
         public void channelActive(final ChannelHandlerContext ctx) throws Exception {
-            heartBeat = ctx.executor().scheduleAtFixedRate(new HeartBeatReqHandler.HeartBeatTask(ctx), 0, 5000, TimeUnit.MILLISECONDS);
+            logger.info("channelActive");
+            heartBeat = ctx.executor().scheduleAtFixedRate(new HeartBeatReqHandler.HeartBeatTask(ctx), 1000, 5000, TimeUnit.MILLISECONDS);
             super.channelActive(ctx);
-            ctx.writeAndFlush(createMessage());
         }
 
         @Override
@@ -130,9 +127,9 @@ public class NettyClientConfig {
 
             @Override
             public void run() {
-                ByteBuf message = createMessage();
-                LOG.info("Client send heart beat messsage to server : ---> " + message.toString() );
-                //ctx.writeAndFlush(buildMessage());
+                MessagePackageProto.MessagePackage messagePackage = buildMessage();
+                LOG.info("Client send heart beat messsage to server : ---> " + messagePackage.toString());
+                ctx.writeAndFlush(messagePackage);
             }
         }
 

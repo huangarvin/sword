@@ -2,7 +2,7 @@ package com.huangsuip.netty.config;
 
 import javax.annotation.PostConstruct;
 
-import com.huangsuip.netty.handler.ChildChannelHandler;
+import com.huangsuip.netty.handler.SwordChannelHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
@@ -26,6 +26,12 @@ public class NettyServerConfig {
 
     @Value("${netty.port:8081}")
     private int port;
+    private final SwordChannelHandler swordChannelHandler;
+
+    public NettyServerConfig(final SwordChannelHandler swordChannelHandler) {
+        this.swordChannelHandler = swordChannelHandler;
+    }
+
 
     @PostConstruct
     public void nettyStart() throws InterruptedException {
@@ -41,27 +47,21 @@ public class NettyServerConfig {
                     .channel(NioServerSocketChannel.class)
                     .handler(new LoggingHandler(LogLevel.DEBUG))
                     .option(ChannelOption.SO_BACKLOG, 1024)
-                    .childHandler(new ChildChannelHandler());
-            logger.info("Netty bootstrap read");
+                    .childHandler(swordChannelHandler);
+            logger.info("Netty bootstrap ready");
             // 绑定端口，同步等待成功
             ChannelFuture channelFuture = bootstrap.bind(port).sync();
 
             if (channelFuture.isSuccess()) {
                 logger.info("Netty bootstrap start");
             }
-            // 等待服务端监听端口关闭
-            channelFuture.channel().closeFuture().sync();
-            logger.info("Netty bootstrap end");
+            // 等待服务端监听端口关闭 version4 和 version5不一样
+            //channelFuture.channel().closeFuture().sync();
         } finally {
             // 优雅退出，释放线程池资源
             logger.info("Netty bootstrap finally");
-            bossGroup.shutdownGracefully();
-            workerGroup.shutdownGracefully();
+            //bossGroup.shutdownGracefully();
+            //workerGroup.shutdownGracefully();
         }
-    }
-
-    public static void main(String[] args) throws InterruptedException {
-        NettyServerConfig config = new NettyServerConfig();
-        config.bind(8081);
     }
 }

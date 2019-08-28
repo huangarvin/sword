@@ -5,14 +5,16 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import com.huangsuip.netty.protobuf.MessageTypeProto;
 import org.springframework.stereotype.Component;
 
 /**
  * @author HuangSuip
  */
-
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Component
-public @interface MessageController {
+public @interface MessageMapping {
+
+    MessageTypeProto.MessageType value();
 }

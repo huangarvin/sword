@@ -9,11 +9,17 @@ import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import io.netty.handler.timeout.ReadTimeoutHandler;
+import org.springframework.stereotype.Component;
 
 /**
  * @author HuangSuip
  */
-public class ChildChannelHandler extends ChannelInitializer<SocketChannel> {
+@Component
+public class SwordChannelHandler extends ChannelInitializer<SocketChannel> {
+
+    private final ServiceChannelHandlerAdapter serviceChannelHandlerAdapter;
+
+    public SwordChannelHandler(final ServiceChannelHandlerAdapter serviceChannelHandlerAdapter) {this.serviceChannelHandlerAdapter = serviceChannelHandlerAdapter;}
 
     @Override
     protected void initChannel(SocketChannel socketChannel) {
@@ -29,6 +35,6 @@ public class ChildChannelHandler extends ChannelInitializer<SocketChannel> {
         pipeline.addLast(new ProtobufEncoder());
 
         pipeline.addLast("readTimeoutHandler", new ReadTimeoutHandler(60));
-        pipeline.addLast(new ServiceChannelHandlerAdapter());
+        pipeline.addLast(serviceChannelHandlerAdapter);
     }
 }
