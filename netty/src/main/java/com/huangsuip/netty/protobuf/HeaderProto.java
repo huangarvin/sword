@@ -116,6 +116,16 @@ public final class HeaderProto {
 
     com.google.protobuf.Any getAttachmentOrThrow(
         java.lang.String key);
+
+    /**
+     * <code>string message = 7;</code>
+     */
+    java.lang.String getMessage();
+    /**
+     * <code>string message = 7;</code>
+     */
+    com.google.protobuf.ByteString
+        getMessageBytes();
   }
   /**
    * Protobuf type {@code Header}
@@ -131,6 +141,7 @@ public final class HeaderProto {
     }
     private Header() {
       type_ = 0;
+      message_ = "";
     }
 
     @java.lang.Override
@@ -201,6 +212,12 @@ public final class HeaderProto {
                   AttachmentDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
               attachment_.getMutableMap().put(
                   attachment__.getKey(), attachment__.getValue());
+              break;
+            }
+            case 58: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              message_ = s;
               break;
             }
             default: {
@@ -408,6 +425,40 @@ public final class HeaderProto {
       return map.get(key);
     }
 
+    public static final int MESSAGE_FIELD_NUMBER = 7;
+    private volatile java.lang.Object message_;
+    /**
+     * <code>string message = 7;</code>
+     */
+    public java.lang.String getMessage() {
+      java.lang.Object ref = message_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        message_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string message = 7;</code>
+     */
+    public com.google.protobuf.ByteString
+        getMessageBytes() {
+      java.lang.Object ref = message_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        message_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -443,6 +494,9 @@ public final class HeaderProto {
           internalGetAttachment(),
           AttachmentDefaultEntryHolder.defaultEntry,
           6);
+      if (!getMessageBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 7, message_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -482,6 +536,9 @@ public final class HeaderProto {
         size += com.google.protobuf.CodedOutputStream
             .computeMessageSize(6, attachment__);
       }
+      if (!getMessageBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, message_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -508,6 +565,8 @@ public final class HeaderProto {
           != other.getPriority()) return false;
       if (!internalGetAttachment().equals(
           other.internalGetAttachment())) return false;
+      if (!getMessage()
+          .equals(other.getMessage())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -534,6 +593,8 @@ public final class HeaderProto {
         hash = (37 * hash) + ATTACHMENT_FIELD_NUMBER;
         hash = (53 * hash) + internalGetAttachment().hashCode();
       }
+      hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
+      hash = (53 * hash) + getMessage().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -700,6 +761,8 @@ public final class HeaderProto {
         priority_ = 0;
 
         internalGetMutableAttachment().clear();
+        message_ = "";
+
         return this;
       }
 
@@ -734,6 +797,7 @@ public final class HeaderProto {
         result.priority_ = priority_;
         result.attachment_ = internalGetAttachment();
         result.attachment_.makeImmutable();
+        result.message_ = message_;
         onBuilt();
         return result;
       }
@@ -799,6 +863,10 @@ public final class HeaderProto {
         }
         internalGetMutableAttachment().mergeFrom(
             other.internalGetAttachment());
+        if (!other.getMessage().isEmpty()) {
+          message_ = other.message_;
+          onChanged();
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -1172,6 +1240,75 @@ public final class HeaderProto {
             .putAll(values);
         return this;
       }
+
+      private java.lang.Object message_ = "";
+      /**
+       * <code>string message = 7;</code>
+       */
+      public java.lang.String getMessage() {
+        java.lang.Object ref = message_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          message_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string message = 7;</code>
+       */
+      public com.google.protobuf.ByteString
+          getMessageBytes() {
+        java.lang.Object ref = message_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          message_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string message = 7;</code>
+       */
+      public Builder setMessage(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        message_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string message = 7;</code>
+       */
+      public Builder clearMessage() {
+        
+        message_ = getDefaultInstance().getMessage();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string message = 7;</code>
+       */
+      public Builder setMessageBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        message_ = value;
+        onChanged();
+        return this;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -1245,14 +1382,14 @@ public final class HeaderProto {
   static {
     java.lang.String[] descriptorData = {
       "\n\014header.proto\032\031google/protobuf/any.prot" +
-      "o\032\022message_type.proto\"\335\001\n\006Header\022\014\n\004code" +
+      "o\032\022message_type.proto\"\356\001\n\006Header\022\014\n\004code" +
       "\030\001 \001(\005\022\016\n\006length\030\002 \001(\005\022\021\n\tsessionId\030\003 \001(" +
       "\003\022\032\n\004type\030\004 \001(\0162\014.MessageType\022\020\n\010priorit" +
       "y\030\005 \001(\005\022+\n\nattachment\030\006 \003(\0132\027.Header.Att" +
-      "achmentEntry\032G\n\017AttachmentEntry\022\013\n\003key\030\001" +
-      " \001(\t\022#\n\005value\030\002 \001(\0132\024.google.protobuf.An" +
-      "y:\0028\001B+\n\034com.huangsuip.netty.protobufB\013H" +
-      "eaderProtob\006proto3"
+      "achmentEntry\022\017\n\007message\030\007 \001(\t\032G\n\017Attachm" +
+      "entEntry\022\013\n\003key\030\001 \001(\t\022#\n\005value\030\002 \001(\0132\024.g" +
+      "oogle.protobuf.Any:\0028\001B+\n\034com.huangsuip." +
+      "netty.protobufB\013HeaderProtob\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1265,7 +1402,7 @@ public final class HeaderProto {
     internal_static_Header_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Header_descriptor,
-        new java.lang.String[] { "Code", "Length", "SessionId", "Type", "Priority", "Attachment", });
+        new java.lang.String[] { "Code", "Length", "SessionId", "Type", "Priority", "Attachment", "Message", });
     internal_static_Header_AttachmentEntry_descriptor =
       internal_static_Header_descriptor.getNestedTypes().get(0);
     internal_static_Header_AttachmentEntry_fieldAccessorTable = new

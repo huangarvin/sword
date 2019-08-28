@@ -1,5 +1,6 @@
 package com.huangsuip.netty.routing;
 
+import com.google.protobuf.Any;
 import com.huangsuip.netty.protobuf.MessagePackageProto;
 import com.huangsuip.netty.protobuf.MessageTypeProto;
 import io.netty.channel.ChannelHandlerContext;
@@ -20,14 +21,19 @@ public abstract class BaseController<T> extends ChannelInboundHandlerAdapter {
             return;
         }
         MessagePackageProto.MessagePackage mp = (MessagePackageProto.MessagePackage) msg;
-        T t = (T) mp.getBody();
+        if (!mp.hasBody()) {
+            return;
+        }
+        Any body = mp.getBody();
+        T t = (T) body;
         MessagePackageProto.MessagePackage messagePackage = doBusiness(ctx, t);
-        logger.info("Response message: {}", messagePackage);
         if (messagePackage != null && messagePackage.hasHeader()) {
+            logger.info("Response message: {}", messagePackage.toString());
             if (MessageTypeProto.MessageType.ONE_WAY.equals(messagePackage.getHeader().getType())
                     || MessageTypeProto.MessageType.UNRECOGNIZED.equals(messagePackage.getHeader().getType())) {
-                ctx.writeAndFlush(messagePackage);
+                return;
             }
+            ctx.writeAndFlush(messagePackage);
         }
     }
 

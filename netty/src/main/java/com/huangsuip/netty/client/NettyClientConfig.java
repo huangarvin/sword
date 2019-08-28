@@ -86,21 +86,16 @@ public class NettyClientConfig {
         }
 
         @Override
-        public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-
-/*            LOG.info("Client receive server heart beat message : ---> ");
-            NettyMessage message = (NettyMessage) msg;
-            // 握手成功，主动发送心跳消息
-            if (message.getHeader() != null
-                    && message.getHeader().getType() == MessageType.LOGIN_RESP.value()) {
-                //heartBeat = ctx.executor().scheduleAtFixedRate(new HeartBeatReqHandler.HeartBeatTask(ctx), 0, 5000, TimeUnit.MILLISECONDS);
-            } else if (message.getHeader() != null
-                    && message.getHeader().getType() == MessageType.HEARTBEAT_RESP.value()) {
-                LOG.info("Client receive server heart beat message : ---> " + message);
-            } else {
-                ctx.fireChannelRead(msg);
-            }*/
-            //heartBeat = ctx.executor().scheduleAtFixedRate(new HeartBeatReqHandler.HeartBeatTask(ctx), 0, 5000, TimeUnit.MILLISECONDS);
+        public void channelRead(ChannelHandlerContext ctx, Object msg) {
+            logger.info(msg.toString());
+            if (msg instanceof MessagePackageProto.MessagePackage){
+                MessagePackageProto.MessagePackage mp = (MessagePackageProto.MessagePackage) msg;
+                if (mp.hasHeader()){
+                    if (mp.getHeader().getType().equals(MessageTypeProto.MessageType.HEARTBEAT_RESP)){
+                        logger.info(mp.getHeader().toString());
+                    }
+                }
+            }
         }
 
         @Override
@@ -114,7 +109,6 @@ public class NettyClientConfig {
         public void handlerAdded(final ChannelHandlerContext ctx) throws Exception {
             LOG.info("NettyClientConfig handler add : ---> ");
             super.handlerAdded(ctx);
-            //heartBeat = ctx.executor().scheduleAtFixedRate(new HeartBeatReqHandler.HeartBeatTask(ctx), 0, 5000, TimeUnit.MILLISECONDS);
         }
 
         private class HeartBeatTask implements Runnable {

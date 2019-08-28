@@ -17,4 +17,5 @@ message Header{
     int32 priority = 5;
     //附加属性
     map<string, google.protobuf.Any> attachment = 6;
+    string message = 7;
 }

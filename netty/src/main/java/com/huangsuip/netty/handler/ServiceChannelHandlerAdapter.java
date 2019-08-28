@@ -1,6 +1,7 @@
 package com.huangsuip.netty.handler;
 
 import com.alibaba.fastjson.JSON;
+import com.huangsuip.netty.protobuf.HeaderProto;
 import com.huangsuip.netty.protobuf.MessagePackageProto;
 import com.huangsuip.netty.protobuf.MessageTypeProto;
 import com.huangsuip.netty.routing.BaseController;
@@ -29,6 +30,17 @@ public class ServiceChannelHandlerAdapter extends ChannelInboundHandlerAdapter {
             if (message.hasHeader()) {
                 MessageTypeProto.MessageType type = message.getHeader().getType();
                 BaseController bean = MessageRouting.getBean(type);
+                if (bean == null) {
+                    HeaderProto.Header h = HeaderProto.Header.newBuilder()
+                            .setType(MessageTypeProto.MessageType.UNRECOGNIZED)
+                            .setMessage(String.format("Message type: %s can't find server", type.getNumber()))
+                            .build();
+                    MessagePackageProto.MessagePackage result = MessagePackageProto.MessagePackage.newBuilder()
+                            .setHeader(h)
+                            .build();
+                    ctx.writeAndFlush(result);
+                    return;
+                }
                 bean.channelRead(ctx, msg);
             }
 
