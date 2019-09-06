@@ -14,6 +14,7 @@
         <module>framework</module>
         <module>service</module>
         <module>netty</module>
+        <module>config</module>
     </modules>
     <packaging>pom</packaging>
 

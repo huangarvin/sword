@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: Sword-Config
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/HungSuip/sword.git
+          force-pull: true
+          searchPaths: config/profile
+#          username: hsp001
+#          password: yitian12546
+#          skip-ssl-validation: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+      #网关注册到eureka
+logging:
+  level:
+    root: info
