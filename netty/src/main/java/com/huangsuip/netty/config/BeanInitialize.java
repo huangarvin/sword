@@ -34,7 +34,8 @@ public class BeanInitialize implements BeanPostProcessor {
         MessageMapping annotation = beanClass.getAnnotation(MessageMapping.class);
         if (annotation != null) {
             MessageTypeProto.MessageType value = annotation.value();
-            MessageRouting.putBean(value, bean);
+            boolean authentication = annotation.authentication();
+            MessageRouting.putBean(value, (BaseController) bean, authentication);
         }
         return bean;
     }

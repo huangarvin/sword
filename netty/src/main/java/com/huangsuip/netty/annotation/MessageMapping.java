@@ -17,4 +17,6 @@ import org.springframework.stereotype.Component;
 public @interface MessageMapping {
 
     MessageTypeProto.MessageType value();
+
+    boolean authentication() default true;
 }

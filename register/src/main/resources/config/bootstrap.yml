@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: Sword-Register
+  cloud:
+    config:
+
+      uri: http://localhost:8099

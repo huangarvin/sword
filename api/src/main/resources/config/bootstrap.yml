@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: Sword-Api
+  cloud:
+    config:
+      uri: http://localhost:8099
+

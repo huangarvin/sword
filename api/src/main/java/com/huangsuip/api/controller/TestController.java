@@ -26,7 +26,9 @@ public class TestController {
 
     private final UserMapper userMapper;
 
-    public TestController(final UserMapper userMapper) {this.userMapper = userMapper;}
+    public TestController(final UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
 
 
     @GetMapping("test/get/user")
