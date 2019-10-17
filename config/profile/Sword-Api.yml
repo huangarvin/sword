@@ -10,7 +10,7 @@ spring:
       type: com.alibaba.druid.pool.DruidDataSource
       username: root
       password: root1234
-      url: jdbc:mysql://10.0.2.93/feng?useUnicode=true&useSSL=false&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+      url: jdbc:mysql://10.0.0.93/feng?useUnicode=true&useSSL=false&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
     slave:
       driver-class-name: com.mysql.jdbc.Driver
       type: com.alibaba.druid.pool.DruidDataSource
