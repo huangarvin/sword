@@ -1,4 +1,4 @@
-package com.huangsuip.api.controller;
+package com.huangsuip.api.controller.test;
 
 import java.util.ArrayList;
 import java.util.List;

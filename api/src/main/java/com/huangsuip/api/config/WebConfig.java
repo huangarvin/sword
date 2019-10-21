@@ -2,10 +2,10 @@ package com.huangsuip.api.config;
 
 
 import java.util.List;
+
 import com.huangsuip.api.interceptor.LoginInterceptor;
 import com.huangsuip.framework.util.LogUtils;
 import com.huangsuip.framework.util.UnifiedObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
@@ -25,7 +25,7 @@ import org.springframework.web.servlet.config.annotation.*;
 @ComponentScan("com.huangsuip.service")
 public class WebConfig implements WebMvcConfigurer {
 
-    @Autowired
+    //@Autowired
     private LoginInterceptor loginInterceptor;
 
     @Override
@@ -56,7 +56,7 @@ public class WebConfig implements WebMvcConfigurer {
     //添加加拦截器
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(loginInterceptor).addPathPatterns("/**");
+        //registry.addInterceptor(loginInterceptor).addPathPatterns("/**");
     }
 
     @Override

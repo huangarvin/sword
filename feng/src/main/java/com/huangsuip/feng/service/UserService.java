@@ -1,14 +1,13 @@
-package com.huangsuip.service.user;
+package com.huangsuip.feng.service;
 
-import com.huangsuip.common.po.User;
-import com.huangsuip.common.po.UserLogin;
+
+import com.huangsuip.feng.po.User;
 
 /**
  * @author HuangSuip
  */
 public interface UserService {
 
-    UserLogin login(String name, String psw);
 
     void insertUser(User u);
 

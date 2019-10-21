@@ -1,11 +1,9 @@
-package com.huangsuip.service.user.impl;
+package com.huangsuip.feng.service;
 
 
-import com.huangsuip.common.po.User;
-import com.huangsuip.common.po.UserLogin;
-import com.huangsuip.framework.util.JSONUtils;
-import com.huangsuip.service.mapper.UserMapper;
-import com.huangsuip.service.user.UserService;
+import com.alibaba.fastjson.JSON;
+import com.huangsuip.feng.dao.UserMapper;
+import com.huangsuip.feng.po.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,27 +19,19 @@ public class UserServiceImpl implements UserService {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private UserMapper userMapper;
-    @Autowired
-    private UserDetailServiceImpl userDetailService;
+
     private boolean b = true;
 
-    @Override
-    public UserLogin login(String name, String psw) {
-        return userDetailService.loadUserByUsername(name);
-    }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void insertUser(User u) {
         userMapper.insert(u);
-        if (u.getUserId() > 500) {
-            //TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-        }
     }
 
     @Override
     public User getUserById(Long id) {
-        User user = userMapper.selectById(id);
+        User user = userMapper.selectByPrimaryKey(id);
         if (b) {
             b = false;
             throw new SecurityException("UserServiceImpl.getUserById");
@@ -53,7 +43,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void updateUser(final User user) {
-        userMapper.updateById(user);
+        userMapper.updateByPrimaryKey(user);
         if (user.getUserId() > 500) {
             //TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new RuntimeException("失败");
@@ -61,7 +51,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public void all() {
         User u = new User();
         try {
@@ -69,13 +58,13 @@ public class UserServiceImpl implements UserService {
             u.setName("User Inster MinQiong");
             this.insertUser(u);
         } catch (Exception e) {
-            logger.info("插入失败: " + JSONUtils.toJSONString(u));
+            logger.info("插入失败: " + JSON.toJSONString(u));
         }
         try {
             u.setName("User Update HuangMinQ");
             this.updateUser(u);
         } catch (Exception e) {
-            logger.info("更新失败: " + JSONUtils.toJSONString(u));
+            logger.info("更新失败: " + JSON.toJSONString(u));
             throw e;
         }
     }

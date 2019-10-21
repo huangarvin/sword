@@ -2,15 +2,15 @@ package com.huangsuip.api.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.huangsuip.framework.util.LogUtils;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 /**
  * @author HuangSuip
  */
-@Component
+//@Component
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 
 

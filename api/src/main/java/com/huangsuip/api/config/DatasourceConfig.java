@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Primary;
 
 /**
@@ -25,7 +26,6 @@ public class DatasourceConfig {
     }
 
     @Bean("writeDatasource")
-    @Primary
     public DataSource getDataSourceWrite(@Qualifier("masterProperties") DataSourceProperties properties) {
         DataSource build = properties.initializeDataSourceBuilder().build();
         return build;
@@ -45,11 +45,22 @@ public class DatasourceConfig {
 
 
     @Bean(name = "readAndWrite")
+    @Primary
     public DataSource getDataSourceAll(
-            @Qualifier("writeDatasource") DataSource write,
-            @Qualifier("readDatasource") DataSource read
+            @Lazy @Qualifier("writeDatasource") DataSource write,
+            @Lazy @Qualifier("readDatasource") DataSource read
     ) {
         //读写分离数据源
         return new DynamicDataSource(write, read);
     }
+
+/*    @Bean(name = "dataSourceTransactionManager")
+    public DataSourceTransactionManager dataSourceTransactionManager(@Qualifier("readAndWrite") DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
+    }*/
+
+/*    @Bean
+    public JtaTransactionManager jtaTransactionManager(TransactionManager transactionManager) {
+        return new JtaTransactionManager(transactionManager);
+    }*/
 }

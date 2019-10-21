@@ -3,5 +3,5 @@ spring:
     name: Sword-Api
   cloud:
     config:
-      uri: http://localhost:8099
+      #uri: http://localhost:8099
 
