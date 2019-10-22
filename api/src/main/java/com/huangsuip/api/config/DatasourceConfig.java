@@ -54,6 +54,7 @@ public class DatasourceConfig {
         return new DynamicDataSource(write, read);
     }
 
+    //要注意数据源问题
 /*    @Bean(name = "dataSourceTransactionManager")
     public DataSourceTransactionManager dataSourceTransactionManager(@Qualifier("readAndWrite") DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
